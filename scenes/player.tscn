@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/savage.png" type="Texture" id=2]
@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 14.0062 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "attack"
 length = 0.5
 loop = true
@@ -23,7 +23,7 @@ tracks/0/keys = {
 "values": [ 24, 25, 26 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -39,7 +39,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -55,6 +55,39 @@ tracks/0/keys = {
 "values": [ 6, 7, 8, 9, 10, 11 ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "attack"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachine" id=14]
+states/attack/node = SubResource( 5 )
+states/attack/position = Vector2( 609, 102 )
+states/idle/node = SubResource( 6 )
+states/idle/position = Vector2( 491, 177 )
+states/walk/node = SubResource( 7 )
+states/walk/position = Vector2( 345, 88 )
+transitions = [ "idle", "walk", SubResource( 8 ), "walk", "idle", SubResource( 9 ), "idle", "attack", SubResource( 10 ), "attack", "idle", SubResource( 11 ), "walk", "attack", SubResource( 12 ), "attack", "walk", SubResource( 13 ) ]
+start_node = "idle"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=15]
+
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
@@ -65,15 +98,20 @@ shape = SubResource( 1 )
 texture = ExtResource( 2 )
 vframes = 5
 hframes = 6
-frame = 24
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
-anims/attack = SubResource( 4 )
-anims/idle = SubResource( 2 )
-anims/walk = SubResource( 3 )
+anims/attack = SubResource( 2 )
+anims/idle = SubResource( 3 )
+anims/walk = SubResource( 4 )
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
 smoothing_enabled = true
 smoothing_speed = 3.0
 editor_draw_drag_margin = true
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 14 )
+anim_player = NodePath("../Sprite/AnimationPlayer")
+active = true
+parameters/playback = SubResource( 15 )
