@@ -19,7 +19,7 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 24, 25, 26 ]
 }
 
@@ -100,7 +100,7 @@ shape = SubResource( 1 )
 texture = ExtResource( 2 )
 vframes = 5
 hframes = 6
-frame = 2
+frame = 24
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/attack = SubResource( 2 )
